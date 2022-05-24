@@ -5,19 +5,88 @@ public class App {
 
     public static Usuarios cadastrarUsuario(Scanner teclado) {
         Usuarios novoUsuario = null;
-        String novoNome, diaDaSemana;
-        Data data;
-        // limparTela();
+        String novoNome;
+        int opcao = -1;
         System.out.println("Biblioteca");
         System.out.println("#########################");
         System.out.println("INCLUIR Usuario");
         System.out.println("Digite o nome do Usuario: ");
         novoNome = teclado.nextLine();
+        opcao = menuUsuario(teclado);
+        switch (opcao) {
+            case 1:
+                novoUsuario = new Professor(novoNome);
+                break;
+            case 2:
+                novoUsuario = new Alunos(novoNome);
+                break;
+            case 3:
+                novoUsuario = new AlunoGraduacao(novoNome);
+                break;
+            case 4:
+                novoUsuario = new AlunoPosGraduacao(novoNome);
+                break;
+        }
 
-        // data = criarData(teclado);
+        return novoUsuario;
+    }
 
-        novoCompromisso = new Usuarios(novoNome);
-        return novoCompromisso;
+    public static Livros cadastrarLivro(Scanner teclado) {
+        Livros novoLivro = null;
+        String novoAutor, novaEditora, novoTitulo;
+        int opcao = -1;
+        System.out.println("Biblioteca");
+        System.out.println("#########################");
+        System.out.println("INCLUIR Usuario");
+        System.out.println("Digite o nome do Autor: ");
+        novoAutor = teclado.nextLine();
+        System.out.println("Digite o nome da Editora: ");
+        novaEditora = teclado.nextLine();
+        System.out.println("Digite o nome do Titulo: ");
+        novoTitulo = teclado.nextLine();
+        opcao = menuLivro(teclado);
+        switch (opcao) {
+            case 1:
+                novoLivro = new LivrosFisicos(novoAutor, novaEditora, novoTitulo);
+                break;
+            case 2:
+                novoLivro = new LivrosFisicosPrioritarios(novoAutor, novaEditora, novoTitulo);
+                break;
+            case 3:
+                novoLivro = new LivrosDigitais(novoAutor, novaEditora, novoTitulo);
+                break;
+        }
+
+        return novoLivro;
+    }
+
+    public static Emprestimo cadastrarEmprestimo(Scanner teclado, LinkedList<Usuarios> usuarios,
+            LinkedList<Livros> livros) {
+        int novaMatricula;
+        String novoTitulo;
+        Emprestimo novoEmprestimo;
+        Usuarios usuario;
+        Livros livro = null;
+        int opcao = -1;
+        System.out.println("Biblioteca");
+        System.out.println("#########################");
+        System.out.println("INCLUIR Usuario");
+        System.out.println("Digite o numero da matricula: ");
+        novaMatricula = teclado.nextInt();
+        System.out.println("Digite o nome do Titulo: ");
+        novoTitulo = teclado.nextLine();
+
+        usuario = usuarios.get(novaMatricula);
+        for (Livros itemLivro : livros) {
+            if (itemLivro.getTitulo().equals(novoTitulo)) {
+                livro = itemLivro;
+                break;
+            }
+        }
+
+        novoEmprestimo = new Emprestimo(usuario, livro);
+
+        return novoEmprestimo;
     }
 
     public static Data criarData(Scanner teclado) {
@@ -63,11 +132,9 @@ public class App {
     public static int menuLivro(Scanner teclado) {
         System.out.println("Biblioteca");
         System.out.println("#########################");
-        System.out.println("1 - Cadastrar Professor");
-        System.out.println("2 - Cadastrar Aluno");
-        System.out.println("3 - Cadastrar AlunoGraduação");
-        System.out.println("4 - Cadastrar AlunoGraduação");
-        System.out.println("0 - Sair");
+        System.out.println("1 - Cadastrar Livro Fisico");
+        System.out.println("2 - Cadastrar Livro Fisico Prioritario");
+        System.out.println("3 - Cadastrar Digital");
 
         int opcao = teclado.nextInt();
         teclado.nextLine();
@@ -80,7 +147,12 @@ public class App {
         Data dataFinal = null;
         Scanner teclado = new Scanner(System.in);
         Livros livro = null;
-        LinkedList<Usuarios> novoUsuario = null;
+        Usuarios novoUsuario;
+        LinkedList<Usuarios> usuarios = new LinkedList<Usuarios>();
+        Livros novoLivro;
+        LinkedList<Livros> livros = new LinkedList<Livros>();
+        Emprestimo novoEmprestimo;
+        LinkedList<Emprestimo> emprestimos = new LinkedList<Emprestimo>();
         String escolhaRecorrencia;
         int recorrencia, qtdDeVezes;
 
@@ -89,55 +161,15 @@ public class App {
             switch (opcao) {
                 case 1:
                     novoUsuario = cadastrarUsuario(teclado);
-                    novaAgenda = new Agenda(compromisso);
-                    System.out.println("Deseja que esse compromisso se repita? Digite: sim ou nao ");
-                    escolhaRecorrencia = teclado.nextLine();
-                    if (escolhaRecorrencia.equalsIgnoreCase("sim")) {
-                        System.out.println("Deseja que esse compromisso repita a cada quantos dias? ");
-                        recorrencia = Integer.parseInt(teclado.nextLine());
-
-                        System.out.println("Quantas vezes deseja que aconteca essa recorrencia? ");
-                        qtdDeVezes = Integer.parseInt(teclado.nextLine());
-
-                        for (int i = 0; i < qtdDeVezes; i++) {
-                            compromisso = new Compromisso(compromisso.descricao, " ",
-                                    compromisso.dataCompromisso.acrescentaDias(recorrencia));
-                            novaAgenda.cadastrarCompromisso(compromisso);
-                        }
-                    }
+                    usuarios.add(novoUsuario);
                     break;
                 case 2:
-                    // limparTela();
-                    compromisso = cadastrarCompromisso(teclado);
-                    novaAgenda.cadastrarCompromisso(compromisso);
-                    System.out.println("Deseja que esse compromisso se repita? Digite: sim ou nao ");
-                    escolhaRecorrencia = teclado.nextLine();
-                    if (escolhaRecorrencia.equalsIgnoreCase("sim")) {
-                        System.out.println("Deseja que esse compromisso repita a cada quantos dias? ");
-                        recorrencia = Integer.parseInt(teclado.nextLine());
-
-                        System.out.println("Quantas vezes deseja que aconteca essa recorrencia? ");
-                        qtdDeVezes = Integer.parseInt(teclado.nextLine());
-
-                        for (int i = 0; i < qtdDeVezes; i++) {
-                            compromisso = new Compromisso(compromisso.descricao, " ",
-                                    compromisso.dataCompromisso.acrescentaDias(recorrencia));
-                            novaAgenda.cadastrarCompromisso(compromisso);
-                        }
-                    }
+                    novoLivro = cadastrarLivro(teclado);
+                    livros.add(novoLivro);
                     break;
                 case 3:
-                    // limparTela();
-                    System.out.println("Agenda De Compromissos");
-                    System.out.println("#########################");
-                    System.out.println("Digite a data incial: !!!!");
-                    System.out.println(" ");
-                    dataInicial = criarData(teclado);
-                    System.out.println("#########################");
-                    System.out.println("Digite a data final: !!!!");
-                    System.out.println(" ");
-                    dataFinal = criarData(teclado);
-                    System.out.println(novaAgenda.relatorio(dataInicial, dataFinal));
+                    novoEmprestimo = cadastrarEmprestimo(teclado, usuarios, livros);
+                    emprestimos.add(novoEmprestimo);
                     break;
             }
             // pausa(teclado);

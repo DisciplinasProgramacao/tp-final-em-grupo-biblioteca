@@ -1,11 +1,16 @@
 public class Livros {
-    protected String autor;
-    protected String editora;
-    protected String titulo;
+    private String autor;
+    private String editora;
+    private String titulo;
 
-    public int devolverLivro() {
-        return 0;
+    public Livros(String autor, String editora, String titulo) {
+        this.autor = autor;
+        this.editora = editora;
+        this.titulo = titulo;
     }
 
+    public String getTitulo() {
+        return this.titulo;
+    }
 
 }
