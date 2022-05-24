@@ -1,3 +1,3 @@
-public class AlunooGraduacao{
+public class AlunoGraduacao{
     
 }

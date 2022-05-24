@@ -3,6 +3,6 @@ public class Alunos{
     private static int SUSPENSAO_DIAS = 2;
 
     public boolean suspensao(){
-        
+        return true;
     }
 }

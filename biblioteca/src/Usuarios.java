@@ -4,10 +4,10 @@ public class Usuarios{
     private String emprestimo;
 
     public String visualizarHistorico (Data dataInic, Data dataFinal){
-
+        return "";
     }
     public String visualizarDadosCadastrais(){
-
+        return "";
     }
     public void emprestar( Emprestimo emprestimo){
 
@@ -16,9 +16,8 @@ public class Usuarios{
 
     }
     public void renovar (Emprestimo emprestimo){
-
     }
-    public String listarLivrosAtrasados (){
-
+    public String listarLivrosAtrasados(){
+        return "";
     }
 }

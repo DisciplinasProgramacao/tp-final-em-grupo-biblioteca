@@ -4,7 +4,7 @@ public class Livros {
     protected String titulo;
 
     public int devolverLivro() {
-        
+        return 0;
     }
 
 

@@ -1,15 +1,15 @@
-public class class Emprestimo {
-    private livros:Livros;
-    private usuario:Usuarios;
-    private dataEmprestimo: Data; 
-    private dataDevolucao:Data ;
-    private dataPrevistaDevolucao:Data;
+public class Emprestimo {
+    private Livros livros;
+    private Usuarios usuario;
+    private Data dataEmprestimo; 
+    private Data dataDevolucao;
+    private Data dataPrevistaDevolucao;
 
     public boolean saberAtraso(){
-
+        return true;
     }
     
     public boolean punicao() {
-    
+        return true;
     }
 }
