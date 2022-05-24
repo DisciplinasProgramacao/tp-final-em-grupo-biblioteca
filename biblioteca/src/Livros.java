@@ -1,7 +1,7 @@
 public class Livros {
-    private String autor;
-    private String editora;
-    private String titulo;
+    protected String autor;
+    protected String editora;
+    protected String titulo;
 
     public int devolverLivro() {
         

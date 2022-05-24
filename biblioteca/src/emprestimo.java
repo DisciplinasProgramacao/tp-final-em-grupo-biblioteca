@@ -4,12 +4,12 @@ public class class Emprestimo {
     private dataEmprestimo: Data; 
     private dataDevolucao:Data ;
     private dataPrevistaDevolucao:Data;
-}
 
-public boolean saberAtraso(){
+    public boolean saberAtraso(){
 
-}
-
-public boolean punicao() {
-
+    }
+    
+    public boolean punicao() {
+    
+    }
 }
