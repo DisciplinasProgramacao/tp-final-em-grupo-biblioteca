@@ -35,7 +35,21 @@ public static int menu(Scanner teclado) {
 }
 
 
-// Opção 1 - Método para cadastro de usuário
+// Opção 1 - Cadastro de usuários
+// Método para indicar o tipo de usuário que será cadastrado
+public static int menuUsuario(Scanner teclado) {
+    System.out.println("------------------------------------------------------");
+    System.out.println("1 - Cadastrar Professor");
+    System.out.println("2 - Cadastrar Aluno");
+    System.out.println("3 - Cadastrar Aluno de Graduação");
+    System.out.println("4 - Cadastrar Aluno de Pos Graduação");
+    System.out.println("------------------------------------------------------");
+    int opcao = teclado.nextInt();
+    teclado.nextLine();
+    return opcao;
+}
+
+// Método para cadastro de usuário
     public static Usuarios cadastrarUsuario(Scanner teclado) {
         Usuarios novoUsuario = null;
         String novoNome;
@@ -63,21 +77,21 @@ public static int menu(Scanner teclado) {
         return novoUsuario;
     }
 
-// Método para indicar o tipo de usuário que será cadastrado
-    public static int menuUsuario(Scanner teclado) {
+
+// Opção 2 - Cadastro de livros
+// Método para indicar o tipo de livro que será cadastrado
+    public static int menuLivro(Scanner teclado) {
         System.out.println("------------------------------------------------------");
-        System.out.println("1 - Cadastrar Professor");
-        System.out.println("2 - Cadastrar Aluno");
-        System.out.println("3 - Cadastrar Aluno de Graduação");
-        System.out.println("4 - Cadastrar Aluno de Pos Graduação");
+        System.out.println("1 - Cadastrar Livro Físico");
+        System.out.println("2 - Cadastrar Livro Físico Prioritário");
+        System.out.println("3 - Cadastrar Livro Digital");
         System.out.println("------------------------------------------------------");
         int opcao = teclado.nextInt();
         teclado.nextLine();
         return opcao;
     }
 
-
-// Opção 2 - Método para cadastro de livro
+//Método para cadastro de livro
     public static Livros cadastrarLivro(Scanner teclado) {
         Livros novoLivro = null;
         String novoAutor, novaEditora, novoTitulo;
@@ -103,18 +117,6 @@ public static int menu(Scanner teclado) {
         }
 
         return novoLivro;
-    }
-
-// Método para indicar o tipo de livro que será cadastrado
-    public static int menuLivro(Scanner teclado) {
-        System.out.println("------------------------------------------------------");
-        System.out.println("1 - Cadastrar Livro Físico");
-        System.out.println("2 - Cadastrar Livro Físico Prioritário");
-        System.out.println("3 - Cadastrar Livro Digital");
-        System.out.println("------------------------------------------------------");
-        int opcao = teclado.nextInt();
-        teclado.nextLine();
-        return opcao;
     }
 
 
@@ -150,7 +152,7 @@ public static int menu(Scanner teclado) {
     public static void RecuperarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros, LinkedList<Emprestimo> emprestimos ){
     }
 
-    
+
     public static void main(String[] args) throws Exception {
         int opcao = -1;
         Data dataInicial = null;
