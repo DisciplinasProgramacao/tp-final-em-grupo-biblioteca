@@ -141,6 +141,16 @@ public class App {
         return opcao;
     }
 
+    public static void SalvarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros, LinkedList<Emprestimo> emprestimos )
+    {
+
+    }
+
+    public static void RecuperarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros, LinkedList<Emprestimo> emprestimos )
+    {
+
+    }
+
     public static void main(String[] args) throws Exception {
         int opcao = -1;
         Data dataInicial = null;
@@ -155,7 +165,8 @@ public class App {
         LinkedList<Emprestimo> emprestimos = new LinkedList<Emprestimo>();
         String escolhaRecorrencia;
         int recorrencia, qtdDeVezes;
-
+        //Recupera dados em arquivos antes de iniciar os menus com as operaçoes de usuarios, livros e emprestimos 
+        RecuperarDaddosNoArquivo(usuarios, livros, emprestimos);
         do {
             opcao = menu(teclado);
             switch (opcao) {
@@ -174,5 +185,8 @@ public class App {
             }
             // pausa(teclado);
         } while (opcao != 0);
+        //Caso o usuario saia do sistema os dados que estão nos objetos serão salvos
+        SalvarDaddosNoArquivo(usuarios, livros, emprestimos);
+
     }
 }
