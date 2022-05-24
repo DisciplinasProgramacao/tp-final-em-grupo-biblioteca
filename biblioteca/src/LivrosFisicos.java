@@ -1,3 +1,7 @@
-public class LivrosFisicos {
-    private int prazo;  
+public class LivrosFisicos extends Livros {
+
+    public LivrosFisicos(String autor, String editora, String titulo) {
+        super(autor, editora, titulo);
+    }
+
 }

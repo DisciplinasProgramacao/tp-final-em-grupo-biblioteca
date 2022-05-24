@@ -3,9 +3,14 @@ public class Livros {
     private String editora;
     private String titulo;
 
-    public int devolverLivro() {
-        
+    public Livros(String autor, String editora, String titulo) {
+        this.autor = autor;
+        this.editora = editora;
+        this.titulo = titulo;
     }
 
+    public String getTitulo() {
+        return this.titulo;
+    }
 
 }
