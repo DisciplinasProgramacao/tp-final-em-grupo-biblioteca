@@ -6,21 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "biblioteca_888fa4cc"
-        },
-        {
-            "type": "java",
-            "name": "Launch App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "biblioteca_66b6fca2",
-            "vmArgs": "--enable-preview"
-        },
-        {
-            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}",
@@ -31,7 +16,7 @@
             "name": "Launch App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "BIblioteca_9f170c5e",
+            "projectName": "biblioteca_888fa4cc",
             "vmArgs": "--enable-preview"
         }
     ]

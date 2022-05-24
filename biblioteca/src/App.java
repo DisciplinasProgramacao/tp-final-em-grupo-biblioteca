@@ -1,3 +1,8 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -146,11 +151,118 @@ public static int menuUsuario(Scanner teclado) {
     }
 
 // Métodos de arquivos
-    public static void SalvarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros, LinkedList<Emprestimo> emprestimos ){
+public static void SalvarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros, LinkedList<Emprestimo> emprestimos ) throws IOException
+{
+    FileWriter arq = new FileWriter(caminhoPastaArquivo +"\\usuarios.txt");
+    PrintWriter gravarArq = new PrintWriter(arq);
+
+    for (Usuarios usuario : usuarios) {
+        var nomeClass = usuario.getClass().getSimpleName();
+        gravarArq.println(nomeClass + "|" + usuario.ToString());
     }
 
-    public static void RecuperarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros, LinkedList<Emprestimo> emprestimos ){
+    arq.close();
+
+    arq = new FileWriter(caminhoPastaArquivo +"\\livros.txt");
+    gravarArq = new PrintWriter(arq);
+
+    for (Livros livro : livros) {
+        var nomeClass = livro.getClass().getSimpleName();
+        gravarArq.println(nomeClass + "|" + livro.ToString());
     }
+
+    arq.close();
+
+    arq = new FileWriter(caminhoPastaArquivo +"\\emprestimos.txt");
+    gravarArq = new PrintWriter(arq);
+
+    for (Emprestimo emprestimo : emprestimos) {
+        var nomeClass = emprestimo.getClass().getSimpleName();
+        gravarArq.println(nomeClass + "|" + emprestimo.ToString());
+    }
+
+    arq.close();
+}
+public static  String caminhoPastaArquivo = "C:\\Users\\maria.campos\\Documents";
+public static void RecuperarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros, LinkedList<Emprestimo> emprestimos ) throws FileNotFoundException
+{
+    Usuarios novoUsuario = null;
+    Scanner scanner = new Scanner(new FileReader( caminhoPastaArquivo +"\\usuarios.txt"));
+    while (scanner.hasNextLine()) {
+        String linha = scanner.nextLine();
+        if(!linha.isEmpty()){
+            String [] atributos = linha.split("\\|");
+            switch (atributos[0]) {
+                case "Professor":
+                    novoUsuario = new Professor(atributos[1], Integer.parseInt(atributos[2]));
+                    usuarios.add(novoUsuario);
+                    break;
+                case "Alunos":
+                    novoUsuario = new Alunos(atributos[1], Integer.parseInt(atributos[2]));
+                    usuarios.add(novoUsuario);
+                    break;
+                case "AlunoGraduacao":
+                    novoUsuario = new AlunoGraduacao(atributos[1], Integer.parseInt(atributos[2]));
+                    usuarios.add(novoUsuario);
+                    break;
+                case "AlunoPosGraduacao":
+                    novoUsuario = new AlunoPosGraduacao(atributos[1], Integer.parseInt(atributos[2]));
+                    usuarios.add(novoUsuario);
+                    break;
+            } 
+        }
+    }
+
+
+    Livros novoLivro = null;
+    scanner = new Scanner(new FileReader(caminhoPastaArquivo +"\\livros.txt"));
+    while (scanner.hasNextLine()) {
+        String linha = scanner.nextLine();
+        if(!linha.isEmpty()){
+            String [] atributos = linha.split("\\|");
+            switch (atributos[0]) {
+                case "LivrosFisicos":
+                    novoLivro = new LivrosFisicos(atributos[1], atributos[2], atributos[3]);
+                    livros.add(novoLivro);
+                    break;
+                case "LivrosFisicosPrioritarios":
+                    novoLivro = new LivrosFisicosPrioritarios(atributos[1], atributos[2], atributos[3]);
+                    livros.add(novoLivro);
+                    break;
+                case "LivrosDigitais":
+                    novoLivro = new LivrosDigitais(atributos[1], atributos[2], atributos[3]);
+                    livros.add(novoLivro);
+                    break;
+            } 
+        }
+    }
+
+    Emprestimo novoEmprestiom = null;
+    Usuarios usuarioEmprestimoAtual = null;
+    Livros livroEmprestimoAtual = null;
+    scanner = new Scanner(new FileReader(caminhoPastaArquivo +"\\emprestimos.txt"));
+    while (scanner.hasNextLine()) {
+        String linha = scanner.nextLine();
+        if(!linha.isEmpty()){
+            String [] atributos = linha.split("\\|");
+            //Pesquisa livros para instanciar o emprestiom
+            for (Livros itemLivro  : livros) {
+                if(atributos[1].equals(itemLivro.getTitulo()))
+                {
+                    livroEmprestimoAtual = itemLivro;
+                    break;      
+                }
+            }
+            //Busca Usuario pela matricula
+            usuarioEmprestimoAtual = usuarios.get(Integer.parseInt(atributos[2]));
+            novoEmprestiom = new Emprestimo(usuarioEmprestimoAtual, livroEmprestimoAtual);
+            emprestimos.add(novoEmprestiom);
+        }
+    }
+
+}
+
+
 
 
     public static void main(String[] args) throws Exception {

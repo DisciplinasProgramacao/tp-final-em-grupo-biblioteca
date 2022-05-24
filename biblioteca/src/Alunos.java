@@ -6,6 +6,10 @@ public class Alunos extends Usuarios {
         super(novoNome);
     }
 
+    public Alunos(String novoNome, int matricula) {
+        super(novoNome, matricula);
+    }
+
     public boolean suspensao() {
         return true;
     }

@@ -8,6 +8,17 @@ public class Usuarios {
         this.matricula = MATRICULA_ATUAL++;
     }
 
+    public Usuarios(String novoNome, int matricula) {
+        this.nome = novoNome;
+        MATRICULA_ATUAL = matricula;
+        this.matricula = matricula;
+    }
+
+    
+    public String ToString() {
+        return this.nome + "|" + this.matricula ;
+    }
+
     public String visualizarHistorico(Data dataInic, Data dataFinal) {
         return "";
     }
@@ -29,5 +40,9 @@ public class Usuarios {
 
     public String listarLivrosAtrasados() {
         return "";
+    }
+
+    public int getMatricula() {
+        return this.matricula;
     }
 }

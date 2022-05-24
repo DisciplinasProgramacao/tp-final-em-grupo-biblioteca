@@ -9,6 +9,10 @@ public class Livros {
         this.titulo = titulo;
     }
 
+    public String ToString() {
+        return this.autor + "|" + this.editora + "|" + this.titulo;
+    }
+
     public String getTitulo() {
         return this.titulo;
     }

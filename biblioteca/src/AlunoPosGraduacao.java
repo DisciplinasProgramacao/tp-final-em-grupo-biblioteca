@@ -4,4 +4,7 @@ public class AlunoPosGraduacao extends Alunos {
         super(novoNome);
     }
 
+    public AlunoPosGraduacao(String novoNome, int matricula) {
+        super(novoNome, matricula);
+    }
 }
