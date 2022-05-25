@@ -13,4 +13,22 @@ public class Alunos extends Usuarios {
     public boolean suspensao() {
         return true;
     }
+
+    @Override
+    public int getDiasDevolucao() {
+        // TODO Auto-generated method stub
+        return 7;
+    }
+
+    @Override
+    public int getDiasSuspensao() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int suspensao(int diasAtrazo) {
+        // TODO Auto-generated method stub
+        return 2 * diasAtrazo;
+    }
 }

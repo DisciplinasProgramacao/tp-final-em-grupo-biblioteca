@@ -2,7 +2,7 @@ import java.time.LocalDate;
 
 public class Emprestimo {
     private Livros livro;
-    private Usuarios usuario;
+    private IUsuarios usuario;
     private Data dataEmprestimo;
     private Data dataDevolucao;
     private Data dataPrevistaDevolucao;
@@ -13,20 +13,36 @@ public class Emprestimo {
 
         this.dataEmprestimo = new Data(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(),
                 LocalDate.now().getYear());
+        this.dataPrevistaDevolucao = new Data().acrescentaDias(novoUsuario.getDiasDevolucao());
     }
 
-    public Emprestimo(Usuarios novoUsuario, Livros novoLivro,  Data dataEmprestimo, Data dataDevolucao, Data dataPrevistaDevolucao) {
-        this.usuario = novoUsuario;
-        this.livro = novoLivro;
-
-        this.dataEmprestimo = dataEmprestimo;
-        this.dataDevolucao = dataDevolucao;
-        this.dataPrevistaDevolucao = dataPrevistaDevolucao;
+    public Livros getLivro()
+    {
+        return this.livro;
     }
 
+    public IUsuarios getUsuario()
+    {
+        return this.usuario;
+    }
+
+    public Data getDataEmprestimo()
+    {
+        return this.dataEmprestimo;
+    }
+
+    public Data getDataDevolucao()
+    {
+        return this.dataDevolucao;
+    }
+
+    public Data getDataPrevistaDevolucao()
+    {
+        return this.dataPrevistaDevolucao;
+    }
 
     public String ToString() {
-         String dataDevolucaoAuxiliar = "";
+        String dataDevolucaoAuxiliar = "";
         String dataPrevistaDevolucaoAuxiliar = "";
         if(this.dataDevolucao != null)
             dataDevolucaoAuxiliar = this.dataDevolucao.toString();
