@@ -135,7 +135,7 @@ public static int menuUsuario(Scanner teclado) {
         Livros livro = null;
         System.out.println("------------------------------------------------------");
         System.out.println("Digite o numero da matricula: ");
-        novaMatricula = teclado.nextInt();
+        novaMatricula = Integer.parseInt(teclado.nextLine());
         System.out.println("Digite o título do livro: ");
         novoTitulo = teclado.nextLine();
 
@@ -183,7 +183,7 @@ public static void SalvarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedLi
 
     arq.close();
 }
-public static  String caminhoPastaArquivo = "C:\\Users\\maria.campos\\Documents";
+public static  String caminhoPastaArquivo = "C:\\Users\\raissa.maia\\Documents";
 public static void RecuperarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros, LinkedList<Emprestimo> emprestimos ) throws FileNotFoundException
 {
     Usuarios novoUsuario = null;
@@ -212,7 +212,6 @@ public static void RecuperarDaddosNoArquivo(LinkedList<Usuarios> usuarios, Linke
             } 
         }
     }
-
 
     Livros novoLivro = null;
     scanner = new Scanner(new FileReader(caminhoPastaArquivo +"\\livros.txt"));

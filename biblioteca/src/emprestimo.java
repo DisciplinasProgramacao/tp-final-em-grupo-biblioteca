@@ -26,7 +26,7 @@ public class Emprestimo {
 
 
     public String ToString() {
-        String dataDevolucaoAuxiliar = "";
+         String dataDevolucaoAuxiliar = "";
         String dataPrevistaDevolucaoAuxiliar = "";
         if(this.dataDevolucao != null)
             dataDevolucaoAuxiliar = this.dataDevolucao.toString();
