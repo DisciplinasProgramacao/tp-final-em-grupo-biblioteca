@@ -6,6 +6,7 @@ public class LivrosDigitais extends Livros {
         super(autor, editora, titulo);
     }
 
+    @Override
     public int getVisualizacao() {
         return this.visualizacao;
     }

@@ -6,6 +6,7 @@ public class LivrosFisicos extends Livros {
         super(autor, editora, titulo);
     }
 
+    @Override
     public int getEmprestimos() {
         return this.emprestimos;
     }

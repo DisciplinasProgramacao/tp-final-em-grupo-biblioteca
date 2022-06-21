@@ -1,4 +1,6 @@
-public class Livros {
+import java.io.Serializable;
+
+public class Livros implements Serializable {
     private String autor;
     private String editora;
     private String titulo;
@@ -26,6 +28,21 @@ public class Livros {
     }
 
     public void addEmprestimos() {
+    }
+
+    public void visualizar() {
+    }
+
+    public int getEmprestimos() {
+        return 0;
+    }
+
+    public int getVisualizacao() {
+        return 0;
+    }
+
+    public boolean verificarEmprestimo() {
+        return false;
     }
 
 }

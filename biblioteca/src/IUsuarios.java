@@ -3,7 +3,7 @@ public interface IUsuarios {
 
     public int getDiasSuspensao();
 
-    public int suspensao(int diasAtrazo);
+    // public int suspensao(int diasAtrazo);
 
     public int getMatricula();
 

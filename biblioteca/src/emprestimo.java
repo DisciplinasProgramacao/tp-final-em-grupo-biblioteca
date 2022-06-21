@@ -1,20 +1,26 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Emprestimo {
+public class Emprestimo implements Serializable {
     private Livros livro;
     private Usuarios usuario;
-    private Data dataEmprestimo;
-    private Data dataDevolucao;
-    private Data dataPrevistaDevolucao;
+    private LocalDate dataEmprestimo;
+    private LocalDate dataDevolucao;
+    private LocalDate dataPrevistaDevolucao;
 
     public Emprestimo(Usuarios novoUsuario, Livros novoLivro) {
         this.usuario = novoUsuario;
         this.livro = novoLivro;
         novoLivro.addEmprestimos();
 
-        this.dataEmprestimo = new Data(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(),
-                LocalDate.now().getYear());
-        this.dataPrevistaDevolucao = new Data().acrescentaDias(novoUsuario.getDiasDevolucao());
+        // Data hoje = new Data(LocalDate.now().getDayOfMonth(),
+        // LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+        int dia = LocalDate.now().getDayOfMonth();
+        int mes = LocalDate.now().getMonthValue();
+        int ano = LocalDate.now().getYear();
+
+        this.dataEmprestimo = LocalDate.of(ano, mes, dia);
+        this.dataPrevistaDevolucao = this.dataEmprestimo.plusDays(novoUsuario.getDiasDevolucao());
     }
 
     public Livros getLivro() {
@@ -25,33 +31,46 @@ public class Emprestimo {
         return this.usuario;
     }
 
-    public Data getDataEmprestimo() {
+    public LocalDate getDataEmprestimo() {
         return this.dataEmprestimo;
     }
 
-    public Data getDataDevolucao() {
+    public LocalDate getDataDevolucao() {
         return this.dataDevolucao;
     }
 
-    public Data getDataPrevistaDevolucao() {
+    public LocalDate getDataPrevistaDevolucao() {
         return this.dataPrevistaDevolucao;
     }
 
-    public String ToString() {
+    public String ToString(Emprestimo emprestimo) {
+
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("Titulo: " + emprestimo.getLivro().getTitulo());
+        System.out.println("Autor: " + emprestimo.getLivro().getAutor());
+        System.out.println("Editora: " + emprestimo.getLivro().getEditora());
+
         String dataDevolucaoAuxiliar = "";
         String dataPrevistaDevolucaoAuxiliar = "";
-        if (this.dataDevolucao != null)
-            dataDevolucaoAuxiliar = this.dataDevolucao.toString();
 
-        if (this.dataPrevistaDevolucao != null)
-            dataPrevistaDevolucaoAuxiliar = this.dataPrevistaDevolucao.toString();
+        if (emprestimo.getDataDevolucao() != null)
+            dataDevolucaoAuxiliar = emprestimo.getDataDevolucao().toString();
 
-        return livro.getTitulo() + "|" + Integer.toString(this.usuario.getMatricula()) + "|"
-                + this.dataEmprestimo.toString() + "|" + dataDevolucaoAuxiliar + "|" + dataPrevistaDevolucaoAuxiliar;
+        if (emprestimo.getDataPrevistaDevolucao() != null)
+            dataPrevistaDevolucaoAuxiliar = emprestimo.getDataPrevistaDevolucao().toString();
+
+        return "Data do Emprestimo: " +
+                emprestimo.getDataEmprestimo().toString() + " | "
+                + "Data Prevista Devolução: " + dataPrevistaDevolucaoAuxiliar + " | " + "Data de Devolução: "
+                + dataDevolucaoAuxiliar;
     }
 
     public boolean saberAtraso() {
         return true;
+    }
+
+    public void mudarDataDevolucao(LocalDate novaDataDevolucao) {
+        this.dataDevolucao = novaDataDevolucao;
     }
 
     public boolean punicao() {
