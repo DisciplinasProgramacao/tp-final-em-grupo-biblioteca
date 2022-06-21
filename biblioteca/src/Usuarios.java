@@ -1,15 +1,20 @@
+import java.util.Date;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class Usuarios implements IUsuarios {
     private String nome;
-    private int matricula = 0;
+    private int matricula;
     protected int qtdDiasSuspenso = 0;
-    private static int MATRICULA_ATUAL = 0;
+    private static int MATRICULA_ATUAL = 1;
+    private LinkedList<Emprestimo> emprestimos;
+    private LinkedList<LivrosDigitais> livrosDigitais;
 
     public Usuarios(String novoNome) {
         this.nome = novoNome;
-        this.matricula = MATRICULA_ATUAL++;
+        this.matricula = MATRICULA_ATUAL;
+        MATRICULA_ATUAL++;
+        this.emprestimos = new LinkedList<>();
     }
 
     public Usuarios(String novoNome, int matricula) {
@@ -20,7 +25,7 @@ public class Usuarios implements IUsuarios {
 
     @Override
     public String ToString() {
-        return this.nome + "|" + this.matricula ;
+        return this.nome + "|" + this.matricula;
     }
 
     public String visualizarHistorico(Data dataInic, Data dataFinal) {
@@ -31,19 +36,29 @@ public class Usuarios implements IUsuarios {
         return "";
     }
 
-    public void emprestar(LinkedList<Emprestimo> emprestimos, Livros livro) {
-        emprestimos.add(new Emprestimo(this, livro));
+    // public void emprestar(LinkedList<Emprestimo> emprestimos, Livros livro) {
+    // emprestimos.add(new Emprestimo(this, livro));
+    // }
+
+    public void emprestar(Emprestimo emprestimo) {
+        this.emprestimos.add(emprestimo);
+    }
+
+    public void addLivroDigital(LivrosDigitais livroDigital) {
+        this.livrosDigitais.add(livroDigital);
+        livroDigital.visualizar();
     }
 
     public void devolver(Emprestimo emprestimo) {
 
-        //Caso a data prevista for maior que a atual do sistema suspende o usuario
+        // Caso a data prevista for maior que a atual do sistema suspende o usuario
         int dataAtual = 0;
-        int dataDevolucao = 0; //emprestimo.getDataPrevistaDevolucao()
-        int diasAtraso = 10; 
-        //if(emprestimo.getDataPrevistaDevolucao() > new Data(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear()))
-        if(dataDevolucao > dataAtual)
-        {
+        int dataDevolucao = 0; // emprestimo.getDataPrevistaDevolucao()
+        int diasAtraso = 10;
+
+        // if(emprestimo.getDataPrevistaDevolucao() > dataAtual){
+        // }
+        if (dataDevolucao > dataAtual) {
             this.suspensao(diasAtraso);
         }
     }
@@ -84,5 +99,4 @@ public class Usuarios implements IUsuarios {
         return qtdDiasSuspenso;
     }
 
-    
 }

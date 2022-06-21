@@ -16,11 +16,16 @@ public class Livros {
     public String getTitulo() {
         return this.titulo;
     }
+
     public String getAutor() {
         return this.autor;
     }
+
     public String getEditora() {
         return this.editora;
+    }
+
+    public void addEmprestimos() {
     }
 
 }

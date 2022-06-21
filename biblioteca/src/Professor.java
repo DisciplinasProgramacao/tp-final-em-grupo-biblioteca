@@ -1,4 +1,6 @@
 public class Professor extends Usuarios {
+    private static int DEVOLUCAO_DIAS = 14;
+    private static int MAXLIVROS = 7;
 
     public Professor(String novoNome) {
         super(novoNome);
@@ -8,15 +10,13 @@ public class Professor extends Usuarios {
         super(novoNome, matricula);
     }
 
-    @Override
     public int getDiasDevolucao() {
         // TODO Auto-generated method stub
-        return 14;
+        return DEVOLUCAO_DIAS;
     }
 
-    @Override
-    public int getDiasSuspensao() {
+    public int getMaxLivros() {
         // TODO Auto-generated method stub
-        return 0;
+        return MAXLIVROS;
     }
 }
