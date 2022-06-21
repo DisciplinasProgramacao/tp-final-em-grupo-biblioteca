@@ -1,19 +1,18 @@
-import java.util.Date;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-public class Usuarios implements IUsuarios {
+public class Usuarios implements IUsuarios, Serializable {
     private String nome;
-    private int matricula;
-    protected int qtdDiasSuspenso = 0;
-    private static int MATRICULA_ATUAL = 1;
+    public int matricula;
+    public int MATRICULA_ATUAL = 0;
     private LinkedList<Emprestimo> emprestimos;
-    private LinkedList<LivrosDigitais> livrosDigitais;
+    private LinkedList<Livros> livrosDigitais;
 
     public Usuarios(String novoNome) {
         this.nome = novoNome;
         this.matricula = MATRICULA_ATUAL;
-        MATRICULA_ATUAL++;
+        this.MATRICULA_ATUAL++;
         this.emprestimos = new LinkedList<>();
     }
 
@@ -26,11 +25,22 @@ public class Usuarios implements IUsuarios {
     // Método em que retorna o nome e a matricul do usuario.
     @Override
     public String ToString() {
-        return this.nome + "|" + this.matricula;
+        return this.nome;
     }
 
-    public String visualizarHistorico(Data dataInic, Data dataFinal) {
-        return "";
+    public LinkedList<Emprestimo> visualizarHistorico(LocalDate dataInic, LocalDate dataFinal) {
+        LinkedList<Emprestimo> emprestimosHistorico = new LinkedList<Emprestimo>();
+        for (Emprestimo emprestimo : emprestimos) {
+            if (emprestimo.getDataEmprestimo().isAfter(dataInic)
+                    && emprestimo.getDataEmprestimo().isBefore(dataFinal)) {
+                emprestimosHistorico.add(emprestimo);
+            }
+        }
+        if (emprestimosHistorico.size() != 0) {
+            return emprestimosHistorico;
+        } else {
+            return null;
+        }
     }
 
     // Método de emprestimo em que adiciona uma classe do tipo Emprestimo na lista
@@ -40,25 +50,25 @@ public class Usuarios implements IUsuarios {
     }
 
     // Metodo que adiciona um livro digital na lista de visualizacao.
-    public void addLivroDigital(LivrosDigitais livroDigital) {
+    public void addLivroDigital(Livros livroDigital) {
         this.livrosDigitais.add(livroDigital);
         livroDigital.visualizar();
     }
 
     // Método de devolução do usuario.
-    public void devolver(Emprestimo emprestimo) {
+    // public void devolver(Emprestimo emprestimo) {
 
-        // Caso a data prevista for maior que a atual do sistema suspende o usuario
-        int dataAtual = 0;
-        int dataDevolucao = 0; // emprestimo.getDataPrevistaDevolucao()
-        int diasAtraso = 10;
+    // // Caso a data prevista for maior que a atual do sistema suspende o usuario
+    // int dataAtual = 0;
+    // int dataDevolucao = 0; // emprestimo.getDataPrevistaDevolucao()
+    // int diasAtraso = 10;
 
-        // if(emprestimo.getDataPrevistaDevolucao() > dataAtual){
-        // }
-        if (dataDevolucao > dataAtual) {
-            this.suspensao(diasAtraso);
-        }
-    }
+    // // if(emprestimo.getDataPrevistaDevolucao() > dataAtual){
+    // // }
+    // if (dataDevolucao > dataAtual) {
+    // this.suspensao(diasAtraso);
+    // }
+    // }
 
     // Método para renovar algum livro que já esteja emprestado.
     public void renovar(Emprestimo emprestimo) {
@@ -82,22 +92,33 @@ public class Usuarios implements IUsuarios {
     }
 
     // Método sobreposto.
-    @Override
     public int getDiasDevolucao() {
         // TODO Auto-generated method stub
         return 0;
     }
 
+    public int getMaxLivros() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public int calculoDiasSuspensao() {
+        return 0;
+    }
+
+    // Metodo sobreposto.
+    public boolean verificarSuspensao() {
+        return false;
+    }
+
     // Método sobreposto.
-    @Override
+
     public int getDiasSuspensao() {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    public int suspensao(int diasAtrazo) {
-        // TODO Auto-generated method stub
-        this.qtdDiasSuspenso = 0 * diasAtrazo;
-        return qtdDiasSuspenso;
+    public String getCategoria() {
+        return "";
     }
 }

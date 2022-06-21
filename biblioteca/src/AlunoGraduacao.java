@@ -1,4 +1,5 @@
 public class AlunoGraduacao extends Alunos {
+    private static int MAXLIVROS = 3;
 
     public AlunoGraduacao(String novoNome) {
         super(novoNome);
@@ -8,4 +9,14 @@ public class AlunoGraduacao extends Alunos {
         super(novoNome, matricula);
     }
 
+    @Override
+    public int getMaxLivros() {
+        // TODO Auto-generated method stub
+        return MAXLIVROS;
+    }
+
+    @Override
+    public String getCategoria() {
+        return "Aluno de Graduação";
+    }
 }
