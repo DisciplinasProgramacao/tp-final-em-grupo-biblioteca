@@ -10,6 +10,7 @@ public class Professor extends Usuarios {
         super(novoNome, matricula);
     }
 
+    @Override
     public int getDiasDevolucao() {
         // TODO Auto-generated method stub
         return DEVOLUCAO_DIAS;

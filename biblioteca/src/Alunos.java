@@ -17,13 +17,13 @@ public class Alunos extends Usuarios {
     @Override
     public int getDiasDevolucao() {
         // TODO Auto-generated method stub
-        return 7;
+        return DEVOLUCAO_DIAS;
     }
 
     @Override
     public int getDiasSuspensao() {
         // TODO Auto-generated method stub
-        return 0;
+        return SUSPENSAO_DIAS;
     }
 
     @Override

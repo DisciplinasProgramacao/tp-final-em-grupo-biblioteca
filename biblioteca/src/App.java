@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class App {
 
-    // Método para introduzir uma data.
+    // Método para introduzir uma data. Retorna uma classe do tipo Data
     public static Data criarData(Scanner teclado) {
         int dia, mes, ano;
         System.out.println("Digite número do dia: ");
@@ -23,7 +23,7 @@ public class App {
         return dataRetorno;
     }
 
-    // Menu Principal
+    // Menu Principal - retorna um int
     public static int menu(Scanner teclado) {
         System.out.println("------------------------------------------------------");
         System.out.println("Biblioteca");
@@ -44,7 +44,7 @@ public class App {
     }
 
     // Opção 1 - Cadastro de usuários
-    // Método para indicar o tipo de usuário que será cadastrado
+    // menu para indicar o tipo de usuário que será cadastrado, retorna o tipo int
     public static int menuUsuario(Scanner teclado) {
         System.out.println("------------------------------------------------------");
         System.out.println("1 - Cadastrar Professor");
@@ -56,7 +56,7 @@ public class App {
         return opcao;
     }
 
-    // Método para cadastro de usuário
+    // Método para cadastrar um Usuario, retorna uma classe do tipo Usuarios
     public static Usuarios cadastrarUsuario(Scanner teclado) {
         Usuarios novoUsuario = null;
         String novoNome;
@@ -82,7 +82,7 @@ public class App {
     }
 
     // Opção 2 - Cadastro de livros
-    // Método para indicar o tipo de livro que será cadastrado
+    // Método para indicar o tipo de livro que será cadastrado, retorna um int
     public static int menuLivro(Scanner teclado) {
         System.out.println("------------------------------------------------------");
         System.out.println("1 - Cadastrar Livro Físico");
@@ -94,7 +94,7 @@ public class App {
         return opcao;
     }
 
-    // Método para cadastro de livro
+    // Método para cadastro de livro, retorna uma classe do tipo Livros
     public static Livros cadastrarLivro(Scanner teclado) {
         Livros novoLivro = null;
         String novoAutor, novaEditora, novoTitulo;
@@ -122,6 +122,7 @@ public class App {
         return novoLivro;
     }
 
+    // Método para visuzalizar os Emprestimos de um Usuario especifico.
     public static void visualizarEmprestimo(Scanner teclado, LinkedList<Usuarios> usuarios,
             LinkedList<Emprestimo> emprestimos) {
         int novaMatricula;
@@ -157,6 +158,7 @@ public class App {
         }
     }
 
+    // Método para visuzalizar e imprimir os alunos que estão suspensos.
     public static void visualizarAlunosSuspensos(Scanner teclado, LinkedList<Usuarios> usuarios) {
         for (Usuarios usuario : usuarios) {
             if (usuario.getDiasSuspensao() > 0) {
@@ -169,6 +171,7 @@ public class App {
         teclado.nextLine();
     }
 
+    // Método para visualizar e imprimir os livros que estão atrasados.
     public static void visualizarLivrosAtrasados(Scanner teclado, LinkedList<Emprestimo> emprestimos) {
         for (Emprestimo emprestimo : emprestimos) {
             if (emprestimo.hashCode() > 0) {
@@ -181,6 +184,7 @@ public class App {
         teclado.nextLine();
     }
 
+    // Método para visualizar e imprimir os livros que foram mais emprestados.
     public static void visualizarLivroMaisEmprestado(Scanner teclado, LinkedList<Livros> livros) {
         Livros livroMaisEmprestado = null;
         LivrosFisicos mock = new LivrosFisicos("", "", "");
@@ -200,6 +204,7 @@ public class App {
         teclado.nextLine();
     }
 
+    // Método para visualizar e imprimir os livros que foram mais visualizados.
     public static void visualizarLivroMaisVisualizado(Scanner teclado, LinkedList<Livros> livros) {
         Livros livroMaisVisualizado = null;
         LivrosDigitais mock = new LivrosDigitais("", "", "");
@@ -219,7 +224,8 @@ public class App {
         teclado.nextLine();
     }
 
-    // Opção 3 - Método para realização de empréstimos
+    // Opção 3 - Método para realização de empréstimos, ele chama o método da classe
+    // Usuarios e cadastra um emprestimo na lista dele.
     public static void cadastrarEmprestimo(Scanner teclado, LinkedList<Usuarios> usuarios,
             LinkedList<Livros> livros, LinkedList<Emprestimo> Emprestimos) {
         int novaMatricula;
@@ -240,10 +246,11 @@ public class App {
                 break;
             }
         }
-        // usuario.emprestar(Emprestimos, livro);
+        novoEmprestimo = new Emprestimo(usuario, livro);
+        usuario.emprestar(novoEmprestimo);
     }
 
-    // Métodos de arquivos
+    // Métodos de arquivos para salvar dados no arquivo
     public static void SalvarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros,
             LinkedList<Emprestimo> emprestimos) throws IOException {
         FileWriter arq = new FileWriter(caminhoPastaArquivo + "\\usuarios.txt");
@@ -279,6 +286,7 @@ public class App {
 
     public static String caminhoPastaArquivo = "C:";
 
+    // Métodos de arquivos para recuperar os dados no arquivo
     public static void RecuperarDaddosNoArquivo(LinkedList<Usuarios> usuarios, LinkedList<Livros> livros,
             LinkedList<Emprestimo> emprestimos) throws FileNotFoundException {
         try {
@@ -358,6 +366,7 @@ public class App {
         }
     }
 
+    // Metodo de inicialização do sistema da biblioteca.
     public static void main(String[] args) throws Exception {
         int opcao = -1;
         Data dataInicial = null;

@@ -23,6 +23,7 @@ public class Usuarios implements IUsuarios {
         this.matricula = matricula;
     }
 
+    // Método em que retorna o nome e a matricul do usuario.
     @Override
     public String ToString() {
         return this.nome + "|" + this.matricula;
@@ -32,23 +33,19 @@ public class Usuarios implements IUsuarios {
         return "";
     }
 
-    public String visualizarDadosCadastrais() {
-        return "";
-    }
-
-    // public void emprestar(LinkedList<Emprestimo> emprestimos, Livros livro) {
-    // emprestimos.add(new Emprestimo(this, livro));
-    // }
-
+    // Método de emprestimo em que adiciona uma classe do tipo Emprestimo na lista
+    // do usuario.
     public void emprestar(Emprestimo emprestimo) {
         this.emprestimos.add(emprestimo);
     }
 
+    // Metodo que adiciona um livro digital na lista de visualizacao.
     public void addLivroDigital(LivrosDigitais livroDigital) {
         this.livrosDigitais.add(livroDigital);
         livroDigital.visualizar();
     }
 
+    // Método de devolução do usuario.
     public void devolver(Emprestimo emprestimo) {
 
         // Caso a data prevista for maior que a atual do sistema suspende o usuario
@@ -63,40 +60,44 @@ public class Usuarios implements IUsuarios {
         }
     }
 
+    // Método para renovar algum livro que já esteja emprestado.
     public void renovar(Emprestimo emprestimo) {
     }
 
+    // Método para retornar livros atrasados.
     public String listarLivrosAtrasados() {
         return "";
     }
 
-    @Override
     public int getMatricula() {
         return this.matricula;
     }
 
-    @Override
     public String getNome() {
         return this.nome;
     }
 
+    public LinkedList<Emprestimo> getEmprestimos() {
+        return this.emprestimos;
+    }
+
+    // Método sobreposto.
     @Override
     public int getDiasDevolucao() {
         // TODO Auto-generated method stub
         return 0;
     }
 
+    // Método sobreposto.
     @Override
     public int getDiasSuspensao() {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    @Override
     public int suspensao(int diasAtrazo) {
         // TODO Auto-generated method stub
         this.qtdDiasSuspenso = 0 * diasAtrazo;
         return qtdDiasSuspenso;
     }
-
 }
