@@ -82,9 +82,10 @@ public class Usuarios implements IUsuarios, Serializable {
     }
 
     // Método para retornar livros atrasados.
-    public String listarLivrosAtrasados() {
+    public String listarLivrosAtrasados(Usuarios usuario) {
         String texto = "";
-        for (Emprestimo emprestimo : this.emprestimos) {
+        LinkedList<Emprestimo> emprestimos = usuario.getEmprestimos();
+        for (Emprestimo emprestimo : emprestimos) {
             if (emprestimo.getDataPrevistaDevolucao().isBefore(emprestimo.getDataDevolucao())) {
                 texto += "Livro Atrasado:" + emprestimo.getLivro().ToString() + "\r\n"
                         + "------------------------------------------------------ \r\n";

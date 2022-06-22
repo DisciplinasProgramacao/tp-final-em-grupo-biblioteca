@@ -126,7 +126,7 @@ public class AppCopy {
                 break;
             case 6:
                 for (Usuarios usuarios2 : usuarios) {
-                    usuarios2.listarLivrosAtrasados();
+                    usuarios2.listarLivrosAtrasados(usuarios2);
                 }
                 break;
         }
