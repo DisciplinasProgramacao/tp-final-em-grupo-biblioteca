@@ -71,7 +71,7 @@ public class AppCopy {
         System.out.println("Biblioteca");
         System.out.println("1 - imprimir Livro Mais Visualizado");
         System.out.println("2 - visualizar Livro Mais Emprestado");
-        System.out.println("3 - visualizar Alunos Suspensos e livros Atrasados");
+        System.out.println("3 - visualizar Alunos Suspensos");
         System.out.println("4 - visualizar todos alunos");
         System.out.println("5 - visualizar todos os livros");
         System.out.println("6 - visualizar livros atrasados");
