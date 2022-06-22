@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class LivrosFisicos extends Livros {
 
     private int emprestimos = 0;
@@ -16,4 +18,13 @@ public class LivrosFisicos extends Livros {
         this.emprestimos++;
     }
 
+    @Override
+    public String ToString() {
+        return super.getAutor() + "|" + super.getEditora() + "|" + super.getTitulo() + "  Tipo: Livro Fisico";
+    }
+
+    @Override
+    public boolean verificarEmprestimo(Emprestimo emprestimo, LocalDate novaDataEmprestimo) {
+        return true;
+    }
 }

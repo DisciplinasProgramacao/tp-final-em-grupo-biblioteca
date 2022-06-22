@@ -21,13 +21,14 @@ public class Emprestimo implements Serializable {
 
         this.dataEmprestimo = LocalDate.of(ano, mes, dia);
         this.dataPrevistaDevolucao = this.dataEmprestimo.plusDays(novoUsuario.getDiasDevolucao());
+        this.dataDevolucao = dataPrevistaDevolucao;
     }
 
     public Livros getLivro() {
         return this.livro;
     }
 
-    public IUsuarios getUsuario() {
+    public Usuarios getUsuario() {
         return this.usuario;
     }
 
@@ -41,6 +42,20 @@ public class Emprestimo implements Serializable {
 
     public LocalDate getDataPrevistaDevolucao() {
         return this.dataPrevistaDevolucao;
+    }
+
+    private void setDataPrevistaDevolucao() {
+        this.dataPrevistaDevolucao = this.getDataEmprestimo().plusDays(this.getUsuario().getDiasDevolucao());
+    }
+
+    public void setDataEmprestimo(LocalDate novaDataEmprestimo) {
+        this.dataEmprestimo = novaDataEmprestimo;
+        this.setDataPrevistaDevolucao();
+        this.setDataDevolucao();
+    }
+
+    private void setDataDevolucao() {
+        this.dataDevolucao = this.getDataPrevistaDevolucao();
     }
 
     public String ToString(Emprestimo emprestimo) {
@@ -65,15 +80,8 @@ public class Emprestimo implements Serializable {
                 + dataDevolucaoAuxiliar;
     }
 
-    public boolean saberAtraso() {
-        return true;
-    }
-
-    public void mudarDataDevolucao(LocalDate novaDataDevolucao) {
+    public void setDataDevolucao(LocalDate novaDataDevolucao) {
         this.dataDevolucao = novaDataDevolucao;
     }
 
-    public boolean punicao() {
-        return true;
-    }
 }

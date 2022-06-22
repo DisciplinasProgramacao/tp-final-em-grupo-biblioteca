@@ -6,10 +6,6 @@ public class AlunoPosGraduacao extends Alunos {
         super(novoNome);
     }
 
-    public AlunoPosGraduacao(String novoNome, int matricula) {
-        super(novoNome, matricula);
-    }
-
     @Override
     public int getMaxLivros() {
         // TODO Auto-generated method stub
@@ -17,7 +13,12 @@ public class AlunoPosGraduacao extends Alunos {
     }
 
     @Override
-    public String getCategoria() {
+    public String ToString() {
+        // TODO Auto-generated method stub
+        return super.getNome() + " | " + super.getMatricula() + "Categoria: " + this.getCategoria();
+    }
+
+    private String getCategoria() {
         return "Aluno de Pós-Graduação";
     }
 }

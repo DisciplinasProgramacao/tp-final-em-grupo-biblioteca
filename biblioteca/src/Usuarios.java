@@ -16,16 +16,9 @@ public class Usuarios implements IUsuarios, Serializable {
         this.emprestimos = new LinkedList<>();
     }
 
-    public Usuarios(String novoNome, int matricula) {
-        this.nome = novoNome;
-        MATRICULA_ATUAL = matricula;
-        this.matricula = matricula;
-    }
-
     // Método em que retorna o nome e a matricul do usuario.
-    @Override
     public String ToString() {
-        return this.nome;
+        return "";
     }
 
     public LinkedList<Emprestimo> visualizarHistorico(LocalDate dataInic, LocalDate dataFinal) {
@@ -46,7 +39,13 @@ public class Usuarios implements IUsuarios, Serializable {
     // Método de emprestimo em que adiciona uma classe do tipo Emprestimo na lista
     // do usuario.
     public void emprestar(Emprestimo emprestimo) {
-        this.emprestimos.add(emprestimo);
+        if (emprestimo.getUsuario().verificarSuspensao()) {
+            this.emprestimos.add(emprestimo);
+        } else {
+            System.out.println("-----------------------------------------------------------");
+            System.out.println("Se você for um professor, você tem livros atrasados.");
+            System.out.println("Se você for um aluno, você está suspenso.");
+        }
     }
 
     // Metodo que adiciona um livro digital na lista de visualizacao.
@@ -56,27 +55,42 @@ public class Usuarios implements IUsuarios, Serializable {
     }
 
     // Método de devolução do usuario.
-    // public void devolver(Emprestimo emprestimo) {
+    public void devolver(LinkedList<Emprestimo> emprestimos2, Livros livroLocalizado, LocalDate dataDevolucao) {
+        int cont = 0;
+        for (Emprestimo emprestimo : emprestimos2) {
+            if (emprestimo.getLivro().getTitulo().equalsIgnoreCase(livroLocalizado.getTitulo())) {
+                emprestimo.setDataDevolucao(dataDevolucao);
+                cont++;
+                if (this.calculoDiasSuspensao() != 0) {
+                    System.out.println("Você está suspenso por " + this.calculoDiasSuspensao());
+                }
+            }
+        }
 
-    // // Caso a data prevista for maior que a atual do sistema suspende o usuario
-    // int dataAtual = 0;
-    // int dataDevolucao = 0; // emprestimo.getDataPrevistaDevolucao()
-    // int diasAtraso = 10;
-
-    // // if(emprestimo.getDataPrevistaDevolucao() > dataAtual){
-    // // }
-    // if (dataDevolucao > dataAtual) {
-    // this.suspensao(diasAtraso);
-    // }
-    // }
+        if (cont == 0) {
+            System.out.println("Emprestimo não encontrado.");
+        }
+    }
 
     // Método para renovar algum livro que já esteja emprestado.
-    public void renovar(Emprestimo emprestimo) {
+    public void renovar(LocalDate novaDataEmprestimo, Emprestimo emprestimo) {
+        if (emprestimo.getLivro().verificarEmprestimo(emprestimo, novaDataEmprestimo)) {
+            emprestimo.setDataEmprestimo(novaDataEmprestimo);
+            System.out.println("Emprestimo renovado com sucesso");
+
+        }
     }
 
     // Método para retornar livros atrasados.
     public String listarLivrosAtrasados() {
-        return "";
+        String texto = "";
+        for (Emprestimo emprestimo : this.emprestimos) {
+            if (emprestimo.getDataPrevistaDevolucao().isBefore(emprestimo.getDataDevolucao())) {
+                texto += "Livro Atrasado:" + emprestimo.getLivro().ToString() + "\r\n"
+                        + "------------------------------------------------------ \r\n";
+            }
+        }
+        return texto;
     }
 
     public int getMatricula() {
@@ -91,12 +105,29 @@ public class Usuarios implements IUsuarios, Serializable {
         return this.emprestimos;
     }
 
+    public LinkedList<Livros> getLivrosVisualizados() {
+        return this.livrosDigitais;
+    }
+
+    public Livros livroMaisVisualizado(LinkedList<Livros> livros) {
+        Livros livro = null;
+        int auxiliar = 0;
+        for (Livros livroDigital : livros) {
+            if (livroDigital.getVisualizacao() > auxiliar) {
+                auxiliar = livroDigital.getVisualizacao();
+                livro = livroDigital;
+            }
+        }
+        return livro;
+    }
+
     // Método sobreposto.
     public int getDiasDevolucao() {
         // TODO Auto-generated method stub
         return 0;
     }
 
+    // Método sobreposto.
     public int getMaxLivros() {
         // TODO Auto-generated method stub
         return 0;
@@ -112,13 +143,9 @@ public class Usuarios implements IUsuarios, Serializable {
     }
 
     // Método sobreposto.
-
     public int getDiasSuspensao() {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    public String getCategoria() {
-        return "";
-    }
 }

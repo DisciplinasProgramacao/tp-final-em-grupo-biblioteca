@@ -53,14 +53,28 @@ public class AppCopy {
         System.out.println("3 - Cadastrar Livro Digital");
         System.out.println("4 - Realizar empréstimo");
         System.out.println("5 - Visualizar histórico de empréstimo do usuario");
-        System.out.println("6 - Alterar data de devolucao do usuário");
+        System.out.println("6 - Devolver livro");
         System.out.println("7 - Baixar livro Digital");
-        System.out.println("8 - imprimir Livro Mais Visualizado");
-        System.out.println("9 - visualizar Livro Mais Emprestado");
-        System.out.println("10 - visualizar Alunos Suspensos");
-        System.out.println("11 - visualizar todos alunos");
-        System.out.println("12 - visualizar todos os livros");
-        System.out.println("13 - visualizar todos os emprestimos");
+        System.out.println("8 - Ver relatórios");
+        System.out.println("9 - Alterar data de devolucao do usuário");
+        System.out.println("10 - Renovar emprestimo");
+        System.out.println("0 - Sair");
+        System.out.println("------------------------------------------------------");
+
+        int opcao = teclado.nextInt();
+        teclado.nextLine();
+        return opcao;
+    }
+
+    public static int menuRelatorio(Scanner teclado) {
+        System.out.println("------------------------------------------------------");
+        System.out.println("Biblioteca");
+        System.out.println("1 - imprimir Livro Mais Visualizado");
+        System.out.println("2 - visualizar Livro Mais Emprestado");
+        System.out.println("3 - visualizar Alunos Suspensos e livros Atrasados");
+        System.out.println("4 - visualizar todos alunos");
+        System.out.println("5 - visualizar todos os livros");
+        System.out.println("6 - visualizar livros atrasados");
         System.out.println("0 - Sair");
         System.out.println("------------------------------------------------------");
 
@@ -90,6 +104,32 @@ public class AppCopy {
         System.out.println("------------------------------------------------------");
         int opcao = Integer.parseInt(teclado.nextLine());
         return opcao;
+    }
+
+    public static void criarRelatorio(Scanner teclado, LinkedList<Livros> livros, LinkedList<Usuarios> usuarios) {
+        int opcao = menuRelatorio(teclado);
+        switch (opcao) {
+            case 1:
+                imprimirLivroMaisVisualizado(teclado, usuarios);
+                break;
+            case 2:
+                visualizarLivroMaisEmprestado(teclado, livros);
+                break;
+            case 3:
+                visualizarAlunosSuspensos(teclado, usuarios);
+                break;
+            case 4:
+                visualizarUsuarios(teclado, usuarios);
+                break;
+            case 5:
+                visualizarTodosLivros(teclado, livros);
+                break;
+            case 6:
+                for (Usuarios usuarios2 : usuarios) {
+                    usuarios2.listarLivrosAtrasados();
+                }
+                break;
+        }
     }
 
     // Método para cadastro de usuário
@@ -165,41 +205,23 @@ public class AppCopy {
         System.out.println("Emprestimo realizado com sucesso.");
     }
 
-    public static void visualizarTodosEmprestimos(Scanner teclado, LinkedList<Usuarios> usuarios) {
-        LinkedList<Emprestimo> emprestimos;
-        for (Usuarios itemUsuario : usuarios) {
-            emprestimos = itemUsuario.getEmprestimos();
-            if (emprestimos != null) {
-                for (Emprestimo emprestimo : itemUsuario.getEmprestimos()) {
-                    System.out.println(emprestimo.ToString(emprestimo));
-                }
-            } else {
-                System.out.println("-----------------------------------------------------------");
-                System.out.println("Não existe emprestimos para o " + itemUsuario.getNome());
-            }
-        }
-    }
-
-    public static void visualizarEmprestimos(Scanner teclado, Usuarios usuario) {
+    public static void visualizarEmprestimosPorData(Scanner teclado, Usuarios usuario) {
         LinkedList<Emprestimo> emprestimos;
         System.out.println("Data inicial");
         LocalDate dataInic = criarData(teclado);
 
         System.out.println("Data final");
         LocalDate dataFinal = criarData(teclado);
-        emprestimos = usuario.visualizarHistorico(dataInic, dataFinal);
 
-        System.out.println("Usuario: " + usuario.getMatricula() + " - " + usuario.getNome());
-        if (emprestimos != null) {
+        System.out.println("Usuario: " + usuario.ToString());
+        System.out.println("Dias suspenso: " + usuario.calculoDiasSuspensao());
+        try {
+            emprestimos = usuario.visualizarHistorico(dataInic, dataFinal);
             for (Emprestimo emprestimo : emprestimos) {
-                System.out.println("-----------------------------------------------------------");
-                System.out.println("Titulo: " + emprestimo.getLivro().getTitulo());
-                System.out.println("Autor: " + emprestimo.getLivro().getAutor());
-                System.out.println("Editora: " + emprestimo.getLivro().getEditora());
-
                 System.out.println(emprestimo.ToString(emprestimo));
             }
-        } else {
+        } catch (NullPointerException e) {
+            // TODO: handle exception
             System.out.println("-----------------------------------------------------------");
             System.out.println("Não existe emprestimos entre essas datas.");
         }
@@ -211,7 +233,8 @@ public class AppCopy {
         int cont = 0;
         for (Usuarios usuario : usuarios) {
             if (!usuario.verificarSuspensao()) {
-                System.out.println("Usuario:" + usuario.getNome());
+                System.out.println("Usuario:" + usuario.ToString());
+                System.out.println("Dias Suspenso:" + usuario.calculoDiasSuspensao());
                 System.out.println("=====================");
                 cont++;
             }
@@ -227,15 +250,11 @@ public class AppCopy {
     }
 
     // // Método para visualizar e imprimir os livros que foram mais visualizados.
-    public static void visualizarLivroMaisVisualizado(Scanner teclado,
-            LinkedList<Livros> livros) {
+    public static void imprimirLivroMaisVisualizado(Scanner teclado,
+            LinkedList<Usuarios> usuarios) {
         Livros livroMaisVisualizado = null;
-        int auxiliar = 0;
-        for (Livros livroFisico : livros) {
-            if (livroFisico.getVisualizacao() > auxiliar) {
-                auxiliar = livroFisico.getVisualizacao();
-                livroMaisVisualizado = livroFisico;
-            }
+        for (Usuarios usuario : usuarios) {
+            livroMaisVisualizado = usuario.livroMaisVisualizado(usuario.getLivrosVisualizados());
         }
         System.out.println("O livro mais visualizado é " +
                 livroMaisVisualizado.ToString());
@@ -266,7 +285,7 @@ public class AppCopy {
             LinkedList<Usuarios> usuarios) {
         for (Usuarios usuarios2 : usuarios) {
             System.out.println(
-                    "Usuario:" + " " + usuarios2.ToString() + "  " + "Categoria:" + " " + usuarios2.getCategoria());
+                    "Usuario:" + " " + usuarios2.ToString());
         }
         System.out.println("-----------------------------------------------------------");
         System.out.println("Pressione enter para volta para o menu");
@@ -357,7 +376,7 @@ public class AppCopy {
             System.out.println("Arquivo não encontrado.");
             System.out.println("Usuarios em branco.");
             System.out.print("Nome do arquivo de dados: ");
-            arqDados = teclado.nextLine();
+            // arqDados = teclado.nextLine();
             // pausa(teclado);
         } catch (IOException ex) {
             System.out.println("Problema no uso do arquivo.");
@@ -399,6 +418,11 @@ public class AppCopy {
     public static void main(String[] args) throws Exception {
         int opcao = -1;
         Scanner teclado = new Scanner(System.in);
+
+        Usuarios usuarioAux;
+        Livros livroEncontradoAux;
+        LinkedList<Emprestimo> emprestimosAux;
+        LocalDate dataDevolucaoAux;
 
         Usuarios novoUsuario = null;
         LinkedList<Usuarios> usuarios = new LinkedList<Usuarios>();
@@ -445,100 +469,94 @@ public class AppCopy {
                     livrosDigitais.add(novoLivroDigital);
                     break;
                 case 4:
-                    Usuarios usuarioAtual = null;
-                    if (usuarioAtual == null) {
-                        // limparTela();
+                    Usuarios usuarioAtual;
+                    try {
                         usuarioAtual = localizarUsuario(teclado, usuarios, retornaNomeUsuario(teclado));
-                        if (usuarioAtual == null) {
-                            if (usuarioAtual == null) {
-                                usuarioAtual = cadastrarUsuario(teclado);
-                                usuarios.add(usuarioAtual);
-                            }
-                        }
+                    } catch (NullPointerException e) {
+                        // TODO: handle exception
+                        System.out.println("Usuario não localizado! Cadastre-se primeiro ou selecione um existente");
+                        System.out.println("-----------------------------------------------------------");
+
+                        usuarioAtual = cadastrarUsuario(teclado);
+                        usuarios.add(usuarioAtual);
                     }
-                    Livros livroAtual = null;
-                    if (livroAtual == null) {
+                    // limparTela();
+                    Livros livroAtual;
+                    try {
                         livroAtual = localizarLivros(teclado, livros, retornaTituloLivro(teclado));
-                        if (livroAtual == null) {
-                            if (livroAtual == null) {
-                                livroAtual = cadastrarLivro(teclado);
-                                livros.add(livroAtual);
-                            }
-                        }
+                    } catch (NullPointerException e) {
+                        // TODO: handle exception
+                        System.out
+                                .println("Livro não localizado! Faça o cadastro  primeiro ou selecione um existente.");
+                        System.out.println("-----------------------------------------------------------");
+                        livroAtual = cadastrarLivro(teclado);
+                        livros.add(livroAtual);
                     }
-                    if (usuarioAtual.verificarSuspensao()) {
-                        if (usuarioAtual.getEmprestimos().size() < usuarioAtual.getMaxLivros()) {
-                            cadastrarEmprestimo(teclado, usuarioAtual, livroAtual);
-                        } else {
-                            System.out.println("-----------------------------------------------------------");
-                            System.out.println("O seu numero de emprestimos esta cheio");
-                        }
+                    if (usuarioAtual.getEmprestimos().size() < usuarioAtual.getMaxLivros()) {
+                        cadastrarEmprestimo(teclado, usuarioAtual, livroAtual);
                     } else {
                         System.out.println("-----------------------------------------------------------");
-                        System.out.println("Se você for um professor, você tem livros atrasados.");
-                        System.out.println("Se você for um aluno, você está suspenso.");
+                        System.out.println(
+                                "O seu número de emprestimos está cheio. Devolva algum livro antes de realizar um novo empréstimo");
                     }
                     break;
                 case 5:
-                    Usuarios usuarioLocalizado;
-                    String nome1 = retornaNomeUsuario(teclado);
-                    usuarioLocalizado = localizarUsuario(teclado, usuarios, nome1);
-                    if (usuarioLocalizado == null) {
-                        // usuario = new Usuarios(nome);
-                        for (Usuarios usuario : usuarios) {
-                            if (usuario.getNome().equals(nome1)) {
-                                usuarioLocalizado = usuario;
-                            }
-                        }
+                    try {
+                        String nome1 = retornaNomeUsuario(teclado);
+                        usuarioAux = localizarUsuario(teclado, usuarios, nome1);
+                        visualizarEmprestimosPorData(teclado, usuarioAux);
+                    } catch (NullPointerException e) {
+                        // TODO: handle exception
+                        System.out.println("Usuario não localizado! Faça o cadastro primeiro.");
                     }
-                    visualizarEmprestimos(teclado, usuarioLocalizado);
                     break;
                 case 6:
-                    Usuarios usuarioLocalizado1 = null;
-                    Livros livroLocalizado;
-                    LinkedList<Emprestimo> emprestimos2;
-                    LocalDate novaDataDevolucao;
+                    usuarioAux = localizarUsuario(teclado, usuarios, retornaNomeUsuario(teclado));
+                    livroEncontradoAux = localizarLivros(teclado, livros, retornaTituloLivro(teclado));
 
-                    usuarioLocalizado1 = localizarUsuario(teclado, usuarios, retornaNomeUsuario(teclado));
-                    livroLocalizado = localizarLivros(teclado, livros, retornaTituloLivro(teclado));
-
-                    novaDataDevolucao = criarData(teclado);
-                    emprestimos2 = usuarioLocalizado1.getEmprestimos();
-                    for (Emprestimo emprestimo : emprestimos2) {
-                        if (emprestimo.getLivro().equals(livroLocalizado)) {
-                            emprestimo.mudarDataDevolucao(novaDataDevolucao);
-                            System.out.println("Data da devolução alterada com sucesso.");
-                            break;
-                        }
-                    }
-                    System.out.println("Emprestimo não encontrado.");
+                    System.out.println("------------------------------------------------------");
+                    System.out.println("Data de devolução");
+                    dataDevolucaoAux = criarData(teclado);
+                    emprestimosAux = usuarioAux.getEmprestimos();
+                    usuarioAux.devolver(emprestimosAux, livroEncontradoAux, dataDevolucaoAux);
                     break;
                 case 7:
-                    Usuarios usuarioLocalizado2 = null;
-                    Livros livroDigitalLocalizado;
+                    usuarioAux = localizarUsuario(teclado, usuarios, retornaNomeUsuario(teclado));
+                    livroEncontradoAux = localizarLivros(teclado, livrosDigitais, retornaTituloLivro(teclado));
 
-                    usuarioLocalizado2 = localizarUsuario(teclado, usuarios, retornaNomeUsuario(teclado));
-                    livroDigitalLocalizado = localizarLivros(teclado, livrosDigitais, retornaTituloLivro(teclado));
-
-                    usuarioLocalizado2.addLivroDigital(livroDigitalLocalizado);
+                    usuarioAux.addLivroDigital(livroEncontradoAux);
                     break;
                 case 8:
-                    visualizarLivroMaisVisualizado(teclado, livrosDigitais);
+                    criarRelatorio(teclado, livros, usuarios);
                     break;
                 case 9:
-                    visualizarLivroMaisEmprestado(teclado, livros);
+                    usuarioAux = localizarUsuario(teclado, usuarios, retornaNomeUsuario(teclado));
+                    livroEncontradoAux = localizarLivros(teclado, livros, retornaTituloLivro(teclado));
+
+                    System.out.println("------------------------------------------------------");
+                    System.out.println("Nova data de devolução");
+                    dataDevolucaoAux = criarData(teclado);
+                    emprestimosAux = usuarioAux.getEmprestimos();
+                    for (Emprestimo empr : emprestimosAux) {
+                        if (empr.getLivro().getTitulo().equalsIgnoreCase(livroEncontradoAux.getTitulo())) {
+                            empr.setDataDevolucao(dataDevolucaoAux);
+                            System.out.println("Data de devolução alterada com sucesso!");
+                        }
+                    }
                     break;
                 case 10:
-                    visualizarAlunosSuspensos(teclado, usuarios);
-                    break;
-                case 11:
-                    visualizarUsuarios(teclado, usuarios);
-                    break;
-                case 12:
-                    visualizarTodosLivros(teclado, livros);
-                    break;
-                case 13:
-                    visualizarTodosEmprestimos(teclado, usuarios);
+                    usuarioAux = localizarUsuario(teclado, usuarios, retornaNomeUsuario(teclado));
+                    livroEncontradoAux = localizarLivros(teclado, livros, retornaTituloLivro(teclado));
+
+                    System.out.println("------------------------------------------------------");
+                    System.out.println("Nova data de empréstimo");
+                    dataDevolucaoAux = criarData(teclado);
+                    emprestimosAux = usuarioAux.getEmprestimos();
+                    for (Emprestimo empr : emprestimosAux) {
+                        if (empr.getLivro().getTitulo().equalsIgnoreCase(livroEncontradoAux.getTitulo())) {
+                            usuarioAux.renovar(dataDevolucaoAux, empr);
+                        }
+                    }
                     break;
             }
             // pausa(teclado);

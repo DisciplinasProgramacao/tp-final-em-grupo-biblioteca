@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class Livros implements Serializable {
     private String autor;
@@ -12,7 +13,7 @@ public class Livros implements Serializable {
     }
 
     public String ToString() {
-        return this.autor + "|" + this.editora + "|" + this.titulo;
+        return "";
     }
 
     public String getTitulo() {
@@ -41,8 +42,8 @@ public class Livros implements Serializable {
         return 0;
     }
 
-    public boolean verificarEmprestimo() {
-        return false;
+    public boolean verificarEmprestimo(Emprestimo emprestimo, LocalDate novaDataEmprestimo) {
+        return true;
     }
 
 }

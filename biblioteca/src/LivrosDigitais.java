@@ -1,5 +1,4 @@
 public class LivrosDigitais extends Livros {
-    public static final int DATA_FUTURA = 2800;
     private int visualizacao = 0;
 
     public LivrosDigitais(String autor, String editora, String titulo) {
@@ -11,7 +10,13 @@ public class LivrosDigitais extends Livros {
         return this.visualizacao;
     }
 
+    @Override
     public void visualizar() {
         this.visualizacao++;
+    }
+
+    @Override
+    public String ToString() {
+        return super.getAutor() + "|" + super.getEditora() + "|" + super.getTitulo() + "  Tipo: Livro Digital";
     }
 }
